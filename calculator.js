@@ -1,5 +1,5 @@
-const validKeys = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
-const validOperators = ['+', '-', '*', '/'];
+const validKeys = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'];
+const validOperators = ['+', '-', 'x', '÷', '^'];
 
 function add(a, b) {
     return a + b;
@@ -14,30 +14,33 @@ function multiply(a, b) {
 }
 
 function divide(a, b) {
+    if (b === 0) {
+        return 'DIVIDE BY 0 ERROR'
+    }
     return a / b;
 }
 
+function power(a, b) {
+    return a ** b;
+}
+
 function processInput(input) {
-    if (operator === '' && !validOperators.includes(input) && validKeys.includes(input)) {
+    console.log(input)
+    if (operator === '' && validKeys.includes(input)) {
         operand1 += input;
     }
     else if (operator === '' && validOperators.includes(input)) {
         if (operand1 === '') {
             operand1 = '0';
         }
-
-        if (input === 'x') {
-            operator = '*';
-        }
-        else if (input === '') {
-            operator = '/'
-        }
-        else {
-            operator = input;
-        }
+        operator = convertOperator(input);
     }
     else if (operator !== '' && validKeys.includes(input)) {
         operand2 += input;
+    }
+    else if (operand1 !== '' && validOperators.includes(input)) {
+        operate(Number(operand1), Number(operand2), operator);
+        operator = convertOperator(input);
     }
 
     const display = document.querySelector('.expression');
@@ -46,14 +49,23 @@ function processInput(input) {
     console.table([operand1, operator, operand2, expression]);
 }
 
-/**
- * 
- * @param {*} operand1 
- * @param {*} operand2 
- * @param {*} operator 
- */
-function operate(operand1, operand2, operator) {
+function convertOperator(input) {
+    if (input === 'x') {
+        return '*';
+    }
+    else if (input === '÷') {
+        return '/'
+    }
+    else {
+        return input;
+    }
+}
+
+
+function operate() {
     let result = 0;
+    operand1 = Number(operand1);
+    operand2 = Number(operand2);
     if (operator === '+') {
         result = add(operand1, operand2);
     }
@@ -66,14 +78,20 @@ function operate(operand1, operand2, operator) {
     else if (operator === '/') {
         result = divide(operand1, operand2);
     }
+    else if (operator === '^') {
+        result = power(operand1, operand2);
+    }
 
     // Round to 5 decimal places if necessary
-    // result = result.toFixed(5);
-    console.log(result);
+    result = parseFloat(result.toFixed(5));
+
+    // Values are evaluated in pairs. Thus, the answer becomes the first operand for the next 'pair'
+    operand1 = String(result);
+    operand2 = '';
+    operator = '';
 
     const answer = document.querySelector('.answer');
     answer.textContent = result;
-    return result;
 }
 
 function clear() {
@@ -106,7 +124,7 @@ buttons.forEach(button => {
 window.addEventListener('keydown', e => {
     if(!validKeys.includes(e.key) || !validOperators.includes(e.key)) {
         return;
-    }1
+    }
     processInput(e.key);
 });
 
