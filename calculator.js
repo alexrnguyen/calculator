@@ -1,5 +1,5 @@
 const validKeys = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', Math.PI];
-const validOperators = ['+', '-', 'x', '÷', '^'];
+const validOperators = ['+', '-', '×', '÷', '^'];
 
 function add(a, b) {
     return a + b;
@@ -41,6 +41,7 @@ function processInput(input) {
     else if (operator === '' && validOperators.includes(input)) {
         if (operand1 === '') {
             operand1 = '0';
+            expression += '0';
         }
         operator = convertOperator(input);
     }
@@ -64,7 +65,7 @@ function processInput(input) {
 }
 
 function convertOperator(input) {
-    if (input === 'x') {
+    if (input === '×') {
         return '*';
     }
     else if (input === '÷') {
@@ -156,7 +157,29 @@ percentButton.addEventListener('click', () => {
 });
 
 decimalButton.addEventListener('click', () => {
-    
+    const display = document.querySelector('.expression');
+    // If no operator is set, the user is still inputting operand 1.
+    if (operator === '') {
+        if (operand1 === '') {
+            operand1 = '0.';
+            expression += '0.'
+        }
+        else if (!Array.from(operand1).includes('.')) {
+            operand1 += '.';
+            expression += '.'
+        } 
+    }
+    else {
+        if (operand2 === '') {
+            operand2 = '0.';
+            expression += '0.'
+        }
+        else if (!Array.from(operand2).includes('.')) {
+            operand2 += '.';
+            expression += '.'
+        } 
+    }
+    display.textContent = expression;
 });
 
 equalityButton.addEventListener('click', () => operate());
