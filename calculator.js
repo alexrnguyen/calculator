@@ -1,4 +1,4 @@
-const validKeys = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'];
+const validKeys = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', Math.PI];
 const validOperators = ['+', '-', 'x', '÷', '^'];
 
 function add(a, b) {
@@ -24,8 +24,17 @@ function power(a, b) {
     return a ** b;
 }
 
+function percentage(a) {
+    return a/100;
+}
+
 function processInput(input) {
-    console.log(input)
+
+    // Convert input of π to float representation in JavaScript
+    if (input === 'π') {
+        input = Math.PI;
+    }
+    
     if (operator === '' && validKeys.includes(input)) {
         operand1 += input;
     }
@@ -39,11 +48,16 @@ function processInput(input) {
         operand2 += input;
     }
     else if (operand1 !== '' && validOperators.includes(input)) {
-        operate(Number(operand1), Number(operand2), operator);
+        operate();
         operator = convertOperator(input);
     }
 
     const display = document.querySelector('.expression');
+
+    // Convert input of π back to string representation to display on calculator screen
+    if (input === Math.PI) {
+        input = 'π';
+    }
     expression += input;
     display.textContent = expression;
     console.table([operand1, operator, operand2, expression]);
@@ -81,6 +95,9 @@ function operate() {
     else if (operator === '^') {
         result = power(operand1, operand2);
     }
+    else if (operator === '%') {
+        result = percentage(operand1);
+    }
     else {
         result = operand1;
     }
@@ -117,6 +134,8 @@ let expression = '';
 const buttons = document.querySelectorAll('.number, .operator');
 const equalityButton = document.querySelector('#equal');
 const clearButton = document.querySelector('#clear');
+const percentButton = document.querySelector('#percentage');
+const decimalButton = document.querySelector('#decimal');
 
 buttons.forEach(button => {
     button.addEventListener('click', () => {
@@ -131,7 +150,16 @@ window.addEventListener('keydown', e => {
     processInput(e.key);
 });
 
-equalityButton.addEventListener('click', () => operate(Number(operand1), Number(operand2), operator));
+percentButton.addEventListener('click', () => {
+    operator = '%';
+    operate()
+});
+
+decimalButton.addEventListener('click', () => {
+    
+});
+
+equalityButton.addEventListener('click', () => operate());
 
 clearButton.addEventListener('click', clear);
 
