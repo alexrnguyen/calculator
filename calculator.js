@@ -81,6 +81,9 @@ function operate() {
     else if (operator === '^') {
         result = power(operand1, operand2);
     }
+    else {
+        result = operand1;
+    }
 
     // Round to 5 decimal places if necessary
     result = parseFloat(result.toFixed(5));

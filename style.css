@@ -1,3 +1,8 @@
+@font-face {
+    font-family: Digital7;
+    src: url(digital-7.ttf);
+}
+
 .container {
     display: flex;
     justify-content: center;
@@ -34,7 +39,14 @@
     border-radius: 5px;
     display: flex;
     align-items: flex-end;
+    justify-content: space-between;
     flex-direction: column;
+    font-family: Digital7;
+    font-size: 45px;
+}
+
+.expression, .answer {
+    padding: 0 8px;
 }
 
 
