@@ -13,30 +13,30 @@ function add(a, b) {
 
 
 /**
- * 
- * @param {number} a 
- * @param {number} b 
- * @returns 
+ * Subtract a number b from another number a
+ * @param {number} a First number
+ * @param {number} b Second number
+ * @returns Difference between a and b
  */
 function subtract(a, b) {
     return a - b;
 }
 
 /**
- * 
- * @param {number} a 
- * @param {number} b 
- * @returns 
+ * Multiply two numbers a and b
+ * @param {number} a First number
+ * @param {number} b Second number
+ * @returns Product of a and b
  */
 function multiply(a, b) {
     return a * b;
 }
 
 /**
- * 
- * @param {number} a 
- * @param {number} b 
- * @returns 
+ * Divide a number a by another number b
+ * @param {number} a First number
+ * @param {number} b Second number
+ * @returns Quotient of a divided by b
  */
 function divide(a, b) {
     if (b === 0) {
@@ -46,19 +46,19 @@ function divide(a, b) {
 }
 
 /**
- * 
- * @param {number} a 
- * @param {number} b 
- * @returns 
+ * Find the exponentiation a to the power of b
+ * @param {number} a First number
+ * @param {number} b Second number
+ * @returns a to the power of b
  */
 function power(a, b) {
     return a ** b;
 }
 
 /**
- * 
- * @param {number} a 
- * @returns 
+ * Represent the percentage of a number as a decimal
+ * @param {number} a Number to convert to decimal
+ * @returns Percentage of a number as a decimal
  */
 function percentage(a) {
     return a/100;
