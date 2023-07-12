@@ -197,7 +197,8 @@ function clear() {
 
 
 /**
- * 
+ * Handler for decimal point input. Prevents the user for entering more than 1 decimal point 
+ * per operand.
  */
 function handleDecimal() {
     const display = document.querySelector('.expression');
@@ -242,9 +243,9 @@ buttons.forEach(button => {
     })
 });
 
+// Key press event listener
 window.addEventListener('keydown', e => {
-    const key = String(e.key);
-
+    let key = String(e.key);
     // Handle special cases (keys that aren't operands or operators)
     if (key === 'Backspace') {
         clear();
@@ -260,6 +261,14 @@ window.addEventListener('keydown', e => {
         handleDecimal();
     }
 
+    // Convert multiplication/division to an easier to read alternative
+    else if (key == '*') {
+        key = '×';
+    }
+
+    else if (key == '/') {
+        key = '÷';
+    }
     if(!validKeys.includes(key) && !validOperators.includes(key)) {
         return;
     }
