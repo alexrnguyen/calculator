@@ -164,7 +164,8 @@ function operate() {
     operand1 = String(result);
     operand2 = '';
     operator = '';
-
+    expression = String(result);
+    updateDisplay(expression);
     displayAnswer(result);
 }
 
@@ -194,36 +195,11 @@ function clear() {
     expression = '';
 }
 
-let operand1 = '';
-let operand2 = '';
-let operator = '';
-let expression = '';
-const buttons = document.querySelectorAll('.number, .operator');
-const equalityButton = document.querySelector('#equal');
-const clearButton = document.querySelector('#clear');
-const percentButton = document.querySelector('#percentage');
-const decimalButton = document.querySelector('#decimal');
 
-// Button event listeners
-buttons.forEach(button => {
-    button.addEventListener('click', () => {
-        processInput(button.textContent);
-    })
-});
-
-window.addEventListener('keydown', e => {
-    if(!validKeys.includes(e.key) || !validOperators.includes(e.key)) {
-        return;
-    }
-    processInput(e.key);
-});
-
-percentButton.addEventListener('click', () => {
-    operator = '%';
-    operate()
-});
-
-decimalButton.addEventListener('click', () => {
+/**
+ * 
+ */
+function handleDecimal() {
     const display = document.querySelector('.expression');
     // If no operator is set, the user is still inputting operand 1.
     if (operator === '') {
@@ -247,9 +223,57 @@ decimalButton.addEventListener('click', () => {
         } 
     }
     display.textContent = expression;
+}
+
+let operand1 = '';
+let operand2 = '';
+let operator = '';
+let expression = '';
+const buttons = document.querySelectorAll('.number, .operator');
+const equalityButton = document.querySelector('#equal');
+const clearButton = document.querySelector('#clear');
+const percentButton = document.querySelector('#percentage');
+const decimalButton = document.querySelector('#decimal');
+
+// Button event listeners
+buttons.forEach(button => {
+    button.addEventListener('click', () => {
+        processInput(button.textContent);
+    })
 });
 
-equalityButton.addEventListener('click', () => operate());
+window.addEventListener('keydown', e => {
+    const key = String(e.key);
+
+    // Handle special cases (keys that aren't operands or operators)
+    if (key === 'Backspace') {
+        clear();
+    }
+    else if (key === '%') {
+        operator = '%';
+        operate();
+    }
+    else if (key === 'Enter' || key === '=') {
+        operate();
+    }
+    else if (key === '.') {
+        handleDecimal();
+    }
+
+    if(!validKeys.includes(key) && !validOperators.includes(key)) {
+        return;
+    }
+    processInput(key);
+});
+
+percentButton.addEventListener('click', () => {
+    operator = '%';
+    operate();
+});
+
+decimalButton.addEventListener('click', handleDecimal);
+
+equalityButton.addEventListener('click', operate);
 
 clearButton.addEventListener('click', clear);
 
